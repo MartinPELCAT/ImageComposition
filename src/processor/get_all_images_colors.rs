@@ -2,43 +2,10 @@ use std::{collections::HashMap, fs::read_dir};
 
 use image::{GenericImageView, Rgba};
 
-pub async fn get_images_avg_colors() -> Vec<(String, (u8, u8, u8))> {
-    let dir = read_dir("images").unwrap();
-
-    let mut handles = Vec::new();
-
-    for img in dir {
-        let img = img.unwrap();
-
-        let path = img.path().clone();
-        let path = &path.to_str().unwrap();
-
-        let path = format!("{}", path);
-
-        let handle = tokio::spawn(async move {
-            let avg_color = super::avg_image_color::avg_image_color(path.as_str());
-            (path, avg_color)
-        });
-
-        handles.push(handle);
-    }
-
-    let paths_with_avg_colors = futures::future::join_all(handles).await;
-
-    let paths_with_avg_colors = paths_with_avg_colors
-        .into_iter()
-        .flatten()
-        .collect::<Vec<_>>();
-
-    paths_with_avg_colors
-}
-
-type Test = (
+pub async fn get_images_avg_colors_with_pixels() -> (
     Vec<(String, (u8, u8, u8))>,
     HashMap<String, Vec<(u32, u32, Rgba<u8>)>>,
-);
-
-pub async fn get_images_avg_colors_with_pixels() -> Test {
+) {
     let dir = read_dir("images").unwrap();
 
     let mut handles = Vec::new();

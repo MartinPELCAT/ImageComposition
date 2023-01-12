@@ -1,3 +1,7 @@
 /target
 /images
 *.jpeg
+*.webp
+*.avif
+*.png
+.DS_Store

@@ -1,6 +1,7 @@
 use std::{cmp, collections::HashMap, fs::create_dir_all};
 
 use image::{GenericImageView, RgbaImage};
+use uuid::Uuid;
 
 use crate::processor::{
     color::get_closest_image, get_all_images_colors::get_images_avg_colors_with_pixels,
@@ -96,5 +97,9 @@ pub async fn method_two() {
         println!("writing pixel line {}", base_img_line_num + 1);
     }
 
-    new_image.save("composition.jpeg").unwrap();
+    let uuid = Uuid::new_v4().to_string();
+
+    let path = format!("{}.jpeg", uuid);
+
+    new_image.save(path).unwrap();
 }
