@@ -17,7 +17,7 @@ pub async fn fetch_images(number: i32) {
         let handle = tokio::spawn(async {
             let client = Client::new();
             let image = client
-                .get("https://picsum.photos/200")
+                .get("https://picsum.photos/50")
                 .header(USER_AGENT, "PostmanRuntime/7.30.0")
                 .send()
                 .await
