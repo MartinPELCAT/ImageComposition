@@ -13,4 +13,3 @@ async fn main() {
 
     println!("finished");
 }
-// https://picsum.photos/500/500
