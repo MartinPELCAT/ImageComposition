@@ -14,10 +14,9 @@ pub async fn method_two() {
     create_dir_all("images").unwrap();
     // processor::request_images::fetch_images(1000).await;
 
-    let base_image = image::open("image.jpeg").unwrap();
+    let mut base_image = image::open("image.jpeg").unwrap();
 
     let (mut width, mut height) = base_image.dimensions();
-    println!("{}, {}", width, height);
 
     let max_side = cmp::max(width, height);
 
@@ -30,13 +29,10 @@ pub async fn method_two() {
             height = MAX_SIZE;
             width = (width as f32 * aspect_ratio).round() as u32;
         }
+
+        base_image = base_image.resize(width, height, image::imageops::FilterType::Nearest);
+        (width, height) = base_image.dimensions();
     }
-
-    let base_image = base_image.resize(width, height, image::imageops::FilterType::Nearest);
-
-    let (width, height) = base_image.dimensions();
-
-    println!("{}, {}", width, height);
 
     let image_w: u32 = IMG_WIDTH * width;
     let image_h: u32 = IMG_WIDTH * height;
